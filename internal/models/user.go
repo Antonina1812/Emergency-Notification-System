@@ -4,9 +4,9 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	Username string `gorm:"uniqueIndex;not null"`
-	Password string `gorm:"not null"`
-	Role     string `gorm:"default:'user'"`
+	Username string `gorm:"uniqueIndex"`
+	Password string
+	Role     string
 }
 
 type Device struct {
@@ -15,4 +15,22 @@ type Device struct {
 	User        User
 	DeviceType  string
 	ContactInfo string
+}
+
+type Message struct {
+	gorm.Model
+	Text string
+	// Template bool
+	CreatedBy uint
+	UserID    uint
+	User      User `gorm:"foreignKey:UserID"`
+}
+
+type MessageHistory struct {
+	gorm.Model
+	MessageID uint
+	Message   Message
+	DeviceID  uint
+	Device    Device
+	Status    string
 }

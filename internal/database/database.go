@@ -1,6 +1,7 @@
 package database
 
 import (
+	"emergency_notification_system/internal/models"
 	"fmt"
 	"log"
 	"os"
@@ -28,5 +29,11 @@ func ConnectDB() {
 	}
 
 	fmt.Println(green("Connected to database"))
+
+	err = db.AutoMigrate(&models.User{}, &models.Device{}, &models.Message{}, &models.MessageHistory{}) // создание таблиц
+	if err != nil {
+		log.Fatal("Failed to migrate database:", err)
+	}
+
 	DB = db
 }
